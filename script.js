@@ -37,27 +37,25 @@ addBook.addEventListener('click', addBookToLibrary);
 
 function addBookToLibrary(event) {
   event.preventDefault();
+
   newBook = new Book(title, author, pages, read);
-  myLibrary.unshift(newBook);
+  myLibrary.push(newBook);
   form.reset();
   closeModal();
-  createBook();
-  // render();
-  console.log(myLibrary);
-  console.log(myLibrary.indexOf());
+  render();
 }
 
-// const render = () => {
-//   const display = document.getElementById('#library');
-//   const books = document.querySelectorAll('.book');
-//   books.forEach((book) => display.removeChild(book));
+const render = () => {
+  const display = document.getElementById('library');
+  const books = document.querySelectorAll('.book');
+  books.forEach((book) => display.removeChild(book));
 
-//   for (let i = 0; i < myLibrary.length; i++) {
-//     createBook(myLibrary[i]);
-//   }
-// };
+  for (let i = 0; i < myLibrary.length; i++) {
+    createBook(myLibrary[i]);
+  }
+};
 
-const createBook = (item) => {
+function createBook(item) {
   const library = document.querySelector('#library');
   const bookDiv = document.createElement('div');
   const titleDiv = document.createElement('div');
@@ -69,27 +67,39 @@ const createBook = (item) => {
   bookDiv.classList.add('book');
   bookDiv.setAttribute('id', myLibrary.indexOf(item));
 
-  titleDiv.textContent = form.title.value;
+  titleDiv.textContent = item.title;
   titleDiv.classList.add('title');
   bookDiv.appendChild(titleDiv);
 
-  authorDiv.textContent = form.author;
+  authorDiv.textContent = item.author;
   authorDiv.classList.add('author');
   bookDiv.appendChild(authorDiv);
 
-  pagesDiv.textContent = form.pages;
+  pagesDiv.textContent = item.pages + ' pages';
   pagesDiv.classList.add('pages');
   bookDiv.appendChild(pagesDiv);
 
   readBtn.classList.add('readBtn');
   bookDiv.appendChild(readBtn);
-  if (form.read === false) {
+  if (item.read === false) {
     readBtn.textContent = `Not Read`;
     readBtn.style.backgroundColor = '#e04f63';
   } else {
     readBtn.textContent = `Read`;
     readBtn.style.backgroundColor = '#63da63';
   }
+  readBtn.addEventListener('click', () => {
+    item.read = !item.read;
+    render();
+  });
+
+  removeBtn.textContent = 'Remove';
+  removeBtn.classList.add('removeBtn');
+  bookDiv.appendChild(removeBtn);
+  removeBtn.addEventListener('click', () => {
+    myLibrary.splice(myLibrary.indexOf(item), 1);
+    render();
+  });
 
   library.appendChild(bookDiv);
-};
+}
