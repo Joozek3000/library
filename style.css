@@ -36,7 +36,7 @@
   align-items: center;
   justify-items: flex-start;
   border: none;
-  background-color: #ff6f61;
+  background-color: #f4e98c;
   height: 14em;
   width: 14em;
   border-radius: 1.5em;
@@ -49,6 +49,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: 1em;
+  justify-content: space-evenly;
 }
 
 .title {
@@ -116,3 +117,27 @@
   border: none;
   background: none;
 }
+
+input[type='text'] {
+  appearance: none;
+  width: 100%;
+  border: 1px solid #333;
+}
+
+input:invalid {
+  border-color: #900;
+  background-color: #fdd;
+}
+
+.error {
+  width: 100%;
+  padding: 0;
+  color: white;
+  background-color: #900;
+  border-radius: 0 0 5px 5px;
+  box-sizing: border-box;
+}
+
+.error .active {
+  /* padding: 0.3em;
+} */

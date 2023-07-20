@@ -16,13 +16,16 @@
       <main class="main">
         <button class="newBook">+ Add Book</button>
         <div class="modal hidden">
-          <form id="form" action="script.js">
+          <form id="form" action="script.js" novalidate>
             <span class="close-modal">&times;</span>
             <legend>New Book</legend>
             <div class="input">
-              <p><input type="text" name="title" id="title" placeholder="Title"></p>
-              <p><input type="text" name="author" id="author" placeholder="Author"></p>
-              <p><input type="text" name="pages" id="pages" placeholder="Pages"></p>
+              <p><input type="text" name="title" id="title" placeholder="Title" required minlength="1"></p>
+              <span class="error" id="titleError" aria-live="polite"></span>
+              <p><input type="text" name="author" id="author" placeholder="Author" required minlength="1"></p>
+              <span class="error" id="authorError" aria-live="polite"></span>
+              <p><input type="text" name="pages" id="pages" placeholder="Pages" required minlength="1"></p>
+              <span class="error" id="pagesError" aria-live="polite"></span>
             </div>
             <div class="checkBox">
               <p><label>Read:</label><input type="checkbox" name="read" id="read" value="no"></p>
