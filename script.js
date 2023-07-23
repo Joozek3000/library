@@ -51,6 +51,24 @@ class Library {
     event.preventDefault();
 
     const form = this.form;
+
+    // Run the validation checks for title, author, and pages
+    if (
+      !form.title.value ||
+      form.title.value[0] === ' ' ||
+      !form.author.value ||
+      form.author.value[0] === ' ' ||
+      !/^[a-zA-Z\s]*$/.test(form.author.value) ||
+      !form.pages.value ||
+      form.pages.value[0] === ' ' ||
+      !/^\d+$/.test(form.pages.value)
+    ) {
+      alert(
+        'There are errors in the form. Please correct them before submitting.'
+      ); // Show an alert if there are errors
+      return; // If any validation checks fail, exit the function early
+    }
+
     const newBook = new Book(
       form.title.value,
       form.author.value,
@@ -141,20 +159,75 @@ const titleError = document.querySelector('#titleError');
 const authorError = document.querySelector('#authorError');
 const pagesError = document.querySelector('#pagesError');
 
+// RegExp for title and author: not starting with space and no special characters
+const textRegEx = /^[a-zA-Z0-9][a-zA-Z0-9\s]*$/;
+
+// RegExp for pages: only digits, no spaces or special characters
+const pagesRegEx = /^\d+$/;
+
+// Event listener for title
 title.addEventListener('input', (e) => {
-  if (title.validity.valid) {
-    titleError.textContent = '';
-    titleError.className = 'error';
+  if (e.target.value[0] === ' ') {
+    title.setCustomValidity('Cannot start with a space');
+    showError(title, titleError);
+  } else if (!e.target.value) {
+    title.setCustomValidity('Field cannot be empty');
+    showError(title, titleError);
   } else {
-    showError();
+    title.setCustomValidity(''); // clear the custom message
+    clearError(title, titleError);
   }
 });
 
-function showError() {
-  if (title.validity.valueMissing) {
-    titleError.textContent = 'You need to enter book title';
-  } else if (title.validity.tooShort) {
-    titleError.textContent = 'title must be at least 1 character long';
+// Event listener for author
+author.addEventListener('input', (e) => {
+  if (e.target.value[0] === ' ') {
+    author.setCustomValidity('Cannot start with a space');
+    showError(author, authorError);
+  } else if (!/^[a-zA-Z\s]*$/.test(e.target.value)) {
+    author.setCustomValidity('Only letters allowed');
+    showError(author, authorError);
+  } else if (!e.target.value) {
+    author.setCustomValidity('Field cannot be empty');
+    showError(author, authorError);
+  } else {
+    author.setCustomValidity(''); // clear the custom message
+    clearError(author, authorError);
+  }
+});
+
+// Event listener for pages
+pages.addEventListener('input', (e) => {
+  if (e.target.value[0] === ' ') {
+    pages.setCustomValidity('Cannot start with a space');
+    showError(pages, pagesError);
+  } else if (!/^\d+$/.test(e.target.value)) {
+    pages.setCustomValidity('Only numbers allowed');
+    showError(pages, pagesError);
+  } else if (!e.target.value) {
+    pages.setCustomValidity('Field cannot be empty');
+    showError(pages, pagesError);
+  } else {
+    pages.setCustomValidity(''); // clear the custom message
+    clearError(pages, pagesError);
+  }
+});
+
+function showError(inputElement, errorElement) {
+  if (inputElement.validity.valid) {
+    errorElement.textContent = '';
+    errorElement.className = 'error';
+  } else {
+    errorElement.textContent = inputElement.validationMessage;
+    errorElement.style.display = 'block'; // show error message
+  }
+}
+
+function clearError(inputElement, errorElement) {
+  if (inputElement.validity.valid) {
+    errorElement.textContent = '';
+    errorElement.className = 'error';
+    errorElement.style.display = 'none'; // hide error message
   }
 }
 

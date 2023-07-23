@@ -120,8 +120,15 @@
 
 input[type='text'] {
   appearance: none;
+
   width: 100%;
   border: 1px solid #333;
+  margin: 0;
+
+  font-family: inherit;
+  font-size: 90%;
+
+  box-sizing: border-box;
 }
 
 input:invalid {
@@ -129,15 +136,32 @@ input:invalid {
   background-color: #fdd;
 }
 
+input:focus:invalid {
+  outline: none;
+}
+
+input p {
+  position: relative;
+}
+
+.input-field {
+  position: relative;
+  margin-bottom: 1em; /* spacing between input fields */
+}
+
 .error {
+  position: absolute;
   width: 100%;
   padding: 0;
+  font-size: 80%;
   color: white;
   background-color: #900;
   border-radius: 0 0 5px 5px;
   box-sizing: border-box;
+  top: 100%; /* position it just below the input field */
+  left: 0;
 }
 
 .error .active {
-  /* padding: 0.3em;
-} */
+  padding: 0.3em;
+}
