@@ -6,6 +6,111 @@ class Book {
     this.pages = pages;
     this.read = read;
   }
+
+  toggleReadStatus() {
+    this.read = !this.read;
+  }
+
+  validate() {
+    if (this.title[0] === ' ') {
+      throw new Error('Cannot start with a space');
+    } else if (!this.title) {
+      throw new Error('Field cannot be empty');
+    }
+
+    if (this.author[0] === ' ') {
+      throw new Error('Cannot start with a space');
+    } else if (!/^[a-zA-Z\s]*$/.test(this.author)) {
+      throw new Error('Only letters allowed');
+    } else if (!this.author) {
+      throw new Error('Field cannot be empty');
+    }
+
+    if (this.pages[0] === ' ') {
+      throw new Error('Cannot start with a space');
+    } else if (!/^\d+$/.test(this.pages)) {
+      throw new Error('Only numbers allowed');
+    } else if (!this.pages) {
+      throw new Error('Field cannot be empty');
+    }
+  }
+
+  get title() {
+    return this._title;
+  }
+
+  set title(value) {
+    this._title = value;
+  }
+
+  get author() {
+    return this._author;
+  }
+
+  set author(value) {
+    this._author = value;
+  }
+
+  get pages() {
+    return this._pages;
+  }
+
+  set pages(value) {
+    this._pages = value;
+  }
+
+  get read() {
+    return this._read;
+  }
+
+  set read(value) {
+    this._read = value;
+  }
+
+  remove() {
+    // Logic to remove the book from the library
+  }
+
+  toElement() {
+    const bookElement = document.createElement('div');
+    bookElement.classList.add('book');
+    bookElement.setAttribute('data-index', this.books.indexOf(book));
+
+    const titleElement = document.createElement('div');
+    titleElement.classList.add('title');
+    titleElement.textContent = this.title;
+    bookElement.appendChild(titleElement);
+
+    const authorElement = document.createElement('div');
+    authorElement.classList.add('author');
+    authorElement.textContent = this.author;
+    bookElement.appendChild(authorElement);
+
+    const pagesElement = document.createElement('div');
+    pagesElement.classList.add('pages');
+    pagesElement.textContent = `${this.pages} pages`;
+    bookElement.appendChild(pagesElement);
+
+    const readButton = document.createElement('button');
+    readButton.classList.add('readBtn');
+    readButton.textContent = this.read ? 'Read' : 'Not Read';
+    readButton.style.backgroundColor = this.read ? '#63da63' : '#e04f63';
+    readButton.addEventListener('click', () => {
+      this.read = !this.read;
+      this.render();
+    });
+    bookElement.appendChild(readButton);
+
+    const removeButton = document.createElement('button');
+    removeButton.classList.add('removeBtn');
+    removeButton.textContent = 'Remove';
+    removeButton.addEventListener('click', () => {
+      this.removeBookFromLibrary(this);
+    });
+    bookElement.appendChild(removeButton);
+
+    return bookElement;
+  }
 }
 
 // Define a Library class which contains books and operations on them.
